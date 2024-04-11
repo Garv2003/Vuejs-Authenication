@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #111;
+}
+.container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container i {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #fff;
+  transition: 0.5s;
+}
+.container:hover i {
+  border: 2px solid var(--clr);
+  filter: drop-shadow(0 0 20px var(--clr));
+}
+.container i:nth-child(1) {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation: animate 6s linear infinite;
+}
+.container i:nth-child(2) {
+  border-radius: 70% 30% 30% 70% / 30% 30% 70% 70%;
+  animation: animate 6s linear infinite reverse;
+}
+.container i:nth-child(3) {
+  border-radius: 30% 70% 70% 30% / 70% 70% 30% 30%;
+  animation: animate 6s linear infinite;
+}
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.container .login {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.container .login h2 {
+  color: #fff;
+  font-size: 2.5em;
+}
+.container .login .inputBx {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: -10px;
+  width: 100%;
+}
+
+.container .login .inputBx span {
+  color: #ff357a;
+  font-size: 1em;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.container .login .inputBx input {
+  position: relative;
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 40px;
+  outline: none;
+  color: #fff;
+  font-size: 1em;
+  border-bottom: 1px solid #fff;
+  box-shadow: none;
+}
+.container .login .inputBx input[type="submit"] {
+  background: linear-gradient(45deg, #ff357a, #fff172);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+.container .login .links {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+}
+.container .login .links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.container .login .links span {
+  color: #fff;
+}
+
+.container .login .links a:hover {
+  text-decoration: underline;
+}
