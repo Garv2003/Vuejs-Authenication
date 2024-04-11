@@ -1,44 +1,61 @@
-const fastify = require("fastify");
+const express = require("express");
+const app = express();
+const session = require("express-session");
+const cors = require("cors");
+const passport = require("passport");
+const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo");
+const compression = require("compression");
+const helmet = require("helmet");
+const morgan = require("morgan");
 const dotenv = require("dotenv");
-const cors = require("@fastify/cors");
-const helmet = require("@fastify/helmet");
-const compress = require("@fastify/compress");
-const session = require("@fastify/session");
-const fastifyCookie = require("@fastify/cookie");
-const { Authenticator } = require("@fastify/passport");
 
 dotenv.config();
-const server = fastify({
-  logger: true,
-});
-const fastifyPassport = new Authenticator();
 
-server.register(cors);
-server.register(helmet);
-server.register(compress);
-server.register(fastifyCookie);
-server.register(session, {
-  secret: "sajdasdasbdaskfbabfiabdbsjkbdkjsbjbdkjsbdjsbjdbkjsbkds",
-  saveUninitialized: true,
-});
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
-// require('./passport/passport');
-server.register(fastifyPassport.initialize());
-server.register(fastifyPassport.secureSession());
+app.use(
+  session({
+    secret: "sajdasdasbdaskfbabfiab",
+    saveUninitialized: true,
+    resave: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URL,
+    }),
+  })
+);
 
-// server.register(require("./routes/index"));
+require("./passport/passport");
+app.use(passport.initialize());
+app.use(passport.session());
 
-// server.post('/login', passport.authenticate('local',
-//     {
-//         failureRedirect: '/login',
-//         successRedirect: '/profile'
-//     }))
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(compression());
+app.use(helmet());
+app.use(morgan("tiny"));
 
-// server.use('/', require('./routes/user'));
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/error",
+    successRedirect: "/profile",
+  })
+);
 
-try {
-  server.listen({ port: process.env.PORT || 3000 });
-} catch (err) {
-  server.log.error(err);
-  process.exit(1);
-}
+app.use("/", require("./routes/auth"));
+
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    app.listen(process.env.PORT || 4444, () => {
+      console.log(`Server is running on port ${process.env.PORT || 4444}`);
+    });
+  })
+  .catch((err) => console.log(err));

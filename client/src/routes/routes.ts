@@ -10,13 +10,6 @@ const router = createRouter({
         {
             path: '/',
             name: 'Profile',
-            beforeEnter: (to, from, next) => {
-                if (!localStorage.getItem('token')) {
-                    next('/login');
-                } else {
-                    next();
-                }
-            },
             component: Profile
         },
         { path: '/login', name: 'Login', component: Login },

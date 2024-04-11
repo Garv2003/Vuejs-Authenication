@@ -79,7 +79,8 @@ body {
   margin-left: 10px;
 }
 
-.container .login .inputBx input {
+.container .login .inputBx input,
+.container .login .inputBx button {
   position: relative;
   width: 100%;
   padding: 12px 20px;
@@ -92,7 +93,7 @@ body {
   border-bottom: 1px solid #fff;
   box-shadow: none;
 }
-.container .login .inputBx input[type="submit"] {
+.container .login .inputBx button {
   background: linear-gradient(45deg, #ff357a, #fff172);
   border: none;
   cursor: pointer;
