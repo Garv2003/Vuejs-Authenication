@@ -20,18 +20,6 @@ app.use(
   })
 );
 
-// const mongoClientPromise = new Promise((resolve) => {
-//   mongoose.connection.on("connected", () => {
-//     const client = mongoose.connection.getClient();
-//     resolve(client);
-//   });
-// });
-
-// const sessionStore = MongoStore.create({
-//   clientPromise: mongoClientPromise,
-//   collection: "sessions",
-// });
-
 app.use(
   session({
     secret: "sajdasdasbdaskfbabfiab",

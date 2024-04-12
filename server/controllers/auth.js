@@ -67,3 +67,15 @@ module.exports.test = (req, res, next) => {
     msg: "Welcome to the passport authentication system",
   });
 };
+
+module.exports.getError = (req, res, next) => {
+  res.status(400).json({
+    msg: "Invalid username or password",
+  });
+};
+
+module.exports.getLogin = (req, res, next) => {
+  res.status(200).json({
+    msg: "Login page",
+  });
+};

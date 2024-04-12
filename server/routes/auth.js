@@ -7,6 +7,8 @@ const isLoggedIn = require("../middleware/IsLogged");
 router.get("/profile", isLoggedIn, userController.getProfile);
 router.get("/", userController.test);
 router.get("/logout", userController.getLogout);
+router.get("/error", userController.getError);
+router.get("/login", userController.getLogin);
 
 router.post("/signup", userController.postSignUp);
 
