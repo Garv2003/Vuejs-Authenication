@@ -15,6 +15,12 @@ const getUser = async () => {
         axios.defaults.withCredentials = true;
         const response = await axios.get(import.meta.env.VITE_SERVER_URL + "/profile")
         console.log(response.data)
+        if (!response.data.user) {
+            useToaster.showErrorToast("You are not authenticated");
+            loading.value = false;
+            router.push("/login");
+            return;
+        }
         user.value = response.data.user;
         loading.value = false;
     } catch (err) {

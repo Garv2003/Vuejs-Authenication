@@ -80,5 +80,9 @@ module.exports.getError = (req, res, next) => {
 module.exports.getLogin = (req, res, next) => {
   res.status(200).json({
     msg: "Login page",
+    user: {
+      name: req.user.name,
+      email: req.user.email,
+    },
   });
 };
