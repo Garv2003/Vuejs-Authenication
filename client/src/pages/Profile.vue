@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useUserStore } from "../stores/user";
 import { useToasterStore } from "../stores/toaster";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
-const user = useUserStore()
 const useToaster = useToasterStore()
 const router = useRouter()
+const user = ref<any>(null)
 const loading = ref(false)
 
 const getUser = async () => {
@@ -15,13 +14,10 @@ const getUser = async () => {
         loading.value = true;
         axios.defaults.withCredentials = true;
         const response = await axios.get(import.meta.env.VITE_SERVER_URL + "/profile")
-        user.setIsAuthicated(true);
-        user.setUser(response.data);
+        user.value = response.data.user;
         loading.value = false;
     } catch (err) {
         useToaster.showErrorToast("You are not authenticated");
-        user.setIsAuthicated(false);
-        user.setUser(null);
         loading.value = false;
         router.push("/login");
     }
@@ -33,14 +29,11 @@ const logout = async () => {
     try {
         axios.defaults.withCredentials = true;
         await axios.get(import.meta.env.VITE_SERVER_URL + "/logout")
-        user.setIsAuthicated(false);
-        user.setUser(null);
+        user.value = null;
         useToaster.showSuccessToast("You are logged out");
         router.push("/login");
     } catch (err) {
         useToaster.showErrorToast("You are not authenticated");
-        user.setIsAuthicated(false);
-        user.setUser(null);
         router.push("/login");
     }
 }
@@ -55,10 +48,10 @@ const logout = async () => {
         <div class="login">
             <h2>Profile</h2>
             <div class="inputBx">
-                <input type="email" placeholder="email" :value="user.getUser.user.email" readonly />
+                <input type="email" placeholder="email" :value="user?.email" readonly />
             </div>
             <div class="inputBx">
-                <input type="text" placeholder="name" :value="user.getUser.user.name" readonly />
+                <input type="text" placeholder="name" :value="user?.name" readonly />
             </div>
             <div class="inputBx">
                 <button @click="logout">Logout</button>
