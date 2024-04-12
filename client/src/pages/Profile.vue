@@ -14,6 +14,7 @@ const getUser = async () => {
         loading.value = true;
         axios.defaults.withCredentials = true;
         const response = await axios.get(import.meta.env.VITE_SERVER_URL + "/profile")
+        console.log(response.data.user)
         user.value = response.data.user;
         loading.value = false;
     } catch (err) {
