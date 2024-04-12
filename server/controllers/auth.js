@@ -1,5 +1,5 @@
 const Users = require("../model/user");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 module.exports.postSignUp = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -12,9 +12,9 @@ module.exports.postSignUp = async (req, res, next) => {
         status: false,
       });
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = bcrypt.genSaltSync(10);
 
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
     const user = new Users({
       name,
