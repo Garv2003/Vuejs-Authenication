@@ -20,14 +20,27 @@ app.use(
   })
 );
 
+const mongoClientPromise = new Promise((resolve) => {
+  mongoose.connection.on("connected", () => {
+    const client = mongoose.connection.getClient();
+    resolve(client);
+  });
+});
+
+const sessionStore = MongoStore.create({
+  clientPromise: mongoClientPromise,
+  collection: "sessions",
+});
+
 app.use(
   session({
     secret: "sajdasdasbdaskfbabfiab",
     saveUninitialized: true,
     resave: true,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
-    }),
+    store: sessionStore,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+    },
   })
 );
 
