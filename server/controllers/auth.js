@@ -1,5 +1,5 @@
 const Users = require("../model/user");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 module.exports.postSignUp = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -11,11 +11,7 @@ module.exports.postSignUp = async (req, res, next) => {
         error: "Email already exists",
         status: false,
       });
-
-    const salt = bcrypt.genSaltSync(10);
-
-    const hashedPassword = bcrypt.hashSync(password, salt);
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = new Users({
       name,
       email,
