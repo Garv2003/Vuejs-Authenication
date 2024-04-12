@@ -36,7 +36,10 @@ module.exports.getProfile = (req, res, next) => {
   try {
     res.status(200).json({
       msg: "Profile",
-      user: req.user,
+      user: {
+        name: req.user.name,
+        email: req.user.email,
+      },
       loggedIn: true,
     });
   } catch (err) {
