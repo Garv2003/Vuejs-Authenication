@@ -38,6 +38,12 @@ app.use(
     saveUninitialized: false,
     resave: false,
     store: sessionStore,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+      domain: process.env.CLIENT_URL,
+      sameSite: "strict",
+      secure: true,
+    },
   })
 );
 
