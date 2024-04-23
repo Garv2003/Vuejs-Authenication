@@ -35,8 +35,8 @@ const sessionStore = MongoStore.create({
 app.use(
   session({
     secret: "sajdasdasbdaskfbabfiab",
-    saveUninitialized: true,
-    resave: true,
+    saveUninitialized: false,
+    resave: false,
     store: sessionStore,
   })
 );
