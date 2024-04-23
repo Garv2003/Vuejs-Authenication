@@ -1,13 +1,14 @@
-const user = require("../model/user");
 const Users = require("../model/user");
 const bcrypt = require("bcrypt");
 
 module.exports.postLogin = async (req, res, next) => {
   try {
-    const user = req.user;
-    console.log(user);
     res.status(200).json({
       msg: "Logged in successfully",
+      user: {
+        name: req.user.name,
+        email: req.user.email,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -92,29 +93,4 @@ module.exports.getError = (req, res, next) => {
   res.status(400).json({
     msg: "Invalid username or password",
   });
-};
-
-module.exports.getLogin = (req, res, next) => {
-  try {
-    if (!req.user) {
-      return res.status(400).json({
-        msg: "Invalid username or password",
-        loggedIn: false,
-        user: null,
-      });
-    }
-    res.status(200).json({
-      msg: "Logged in successfully",
-      loggedIn: true,
-      user: {
-        name: req.user.name,
-        email: req.user.email,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      msg: "Something went wrong",
-      error: err,
-    });
-  }
 };

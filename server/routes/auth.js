@@ -9,8 +9,7 @@ router
   .get("/profile", isLoggedIn, userController.getProfile)
   .get("/", userController.test)
   .get("/logout", userController.getLogout)
-  .get("/error", userController.getError)
-  .get("/login", userController.getLogin);
+  .get("/error", userController.getError);
 
 router
   .post("/signup", userController.postSignUp)
