@@ -41,14 +41,6 @@ app.use(compression());
 app.use(helmet());
 app.use(morgan("tiny"));
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/error",
-    successRedirect: "/profile",
-  })
-);
-
 app.use("/", require("./routes/auth"));
 
 mongoose

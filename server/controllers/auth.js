@@ -2,6 +2,22 @@ const user = require("../model/user");
 const Users = require("../model/user");
 const bcrypt = require("bcrypt");
 
+module.exports.postLogin = async (req, res, next) => {
+  try {
+    const user = req.user;
+    console.log(user);
+    res.status(200).json({
+      msg: "Logged in successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      msg: "Something went wrong",
+      error: err,
+    });
+  }
+};
+
 module.exports.postSignUp = async (req, res, next) => {
   const { name, email, password } = req.body;
   try {
