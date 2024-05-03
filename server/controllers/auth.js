@@ -11,7 +11,6 @@ module.exports.postLogin = async (req, res, next) => {
       },
     });
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       msg: "Something went wrong",
       error: err,
