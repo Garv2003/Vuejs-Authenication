@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import User from "../model/user.js";
 
 async function jwtverify(req, res) {
-  if (req.raw.url === "/login" || req.raw.url === "/register") {
+  if (
+    req.raw.url === "/login" ||
+    req.raw.url === "/register" ||
+    req.raw.url === "/test"
+  ) {
     return;
   }
 
