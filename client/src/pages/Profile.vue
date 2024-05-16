@@ -12,8 +12,11 @@ const loading = ref(false)
 const getUser = async () => {
     try {
         loading.value = true;
-        axios.defaults.withCredentials = true;
-        const response = await axios.get(import.meta.env.VITE_SERVER_URL + "/profile")
+        const response = await axios.get(import.meta.env.VITE_SERVER_URL + "/profile", {
+            headers: {
+                "authorization": localStorage.getItem('token')
+            }
+        });
         if (!response.data.user) {
             useToaster.showErrorToast("You are not authenticated");
             loading.value = false;
@@ -32,15 +35,27 @@ const getUser = async () => {
 getUser();
 
 const logout = async () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+}
+
+const deleteProfile = async () => {
+    const confirm = window.confirm("Are you sure you want to delete your profile?");
+    if (!confirm) return;
     try {
-        axios.defaults.withCredentials = true;
-        await axios.get(import.meta.env.VITE_SERVER_URL + "/logout")
-        user.value = null;
-        useToaster.showSuccessToast("You are logged out");
-        router.push("/login");
+        const response = await axios.delete(import.meta.env.VITE_SERVER_URL + "/delete", {
+            headers: {
+                "authorization": localStorage.getItem('token')
+            }
+        });
+        if (response.data.status) {
+            useToaster.showSuccessToast("Profile deleted successfully");
+            localStorage.removeItem('token');
+            router.push('/login');
+        }
     } catch (err) {
-        useToaster.showErrorToast("You are not authenticated");
-        router.push("/login");
+        console.log(err);
+        useToaster.showErrorToast("Something went wrong");
     }
 }
 
@@ -61,6 +76,9 @@ const logout = async () => {
             </div>
             <div class="inputBx">
                 <button @click="logout">Logout</button>
+            </div>
+            <div class="inputBx">
+                <button @click="deleteProfile">Delete Profile</button>
             </div>
         </div>
     </div>

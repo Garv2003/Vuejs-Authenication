@@ -29,7 +29,7 @@ const onSubmit = handleSubmit(async (values) => {
   axios.defaults.withCredentials = true;
   try {
     loading.value = true
-    const response = await axios.post(import.meta.env.VITE_SERVER_URL + '/signup', values)
+    const response = await axios.post(import.meta.env.VITE_SERVER_URL + '/register', values)
     if (response.data.status) {
       resetForm()
       toaster.showSuccessToast("Account created successfully")

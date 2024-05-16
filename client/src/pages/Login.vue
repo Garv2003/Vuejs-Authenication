@@ -25,11 +25,8 @@ const onSubmit = handleSubmit(async (values) => {
   axios.defaults.withCredentials = true
   try {
     loading.value = true
-    const data = {
-      username: values.email,
-      password: values.password
-    }
-    await axios.post(import.meta.env.VITE_SERVER_URL + '/login', data)
+    const res = await axios.post(import.meta.env.VITE_SERVER_URL + '/login', values)
+    localStorage.setItem('token', "Bearer " + res.data.accessToken)
     loading.value = false
     resetForm()
     toaster.showSuccessToast("Logged in successfully")

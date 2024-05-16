@@ -1,18 +1,22 @@
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
+import {
+  postLogin,
+  postSignUp,
+  test,
+  getProfile,
+  deleteProfile,
+} from "../controllers/auth.js";
 
-const userController = require("../controllers/auth");
-const isLoggedIn = require("../middleware/IsLogged");
+async function routes(fastify, options) {
+  // Post method
+  fastify.post("/login", postLogin);
+  fastify.post("/register", postSignUp);
 
-router
-  .get("/profile", isLoggedIn, userController.getProfile)
-  .get("/", userController.test)
-  .get("/logout", userController.getLogout)
-  .get("/error", userController.getError);
+  // Get method
+  fastify.get("/profile", getProfile);
+  fastify.get("/", test);
 
-router
-  .post("/signup", userController.postSignUp)
-  .post("/login", passport.authenticate("local"), userController.postLogin);
+  // delete method
+  fastify.delete("/delete", deleteProfile);
+}
 
-module.exports = router;
+export default routes;
