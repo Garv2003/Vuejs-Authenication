@@ -13,7 +13,7 @@ async function routes(fastify, options) {
 
   // Get method
   fastify.get("/profile", getProfile);
-  fastify.get("/", test);
+  fastify.get("/test", test);
 
   // delete method
   fastify.delete("/delete", deleteProfile);
